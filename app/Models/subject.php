@@ -9,4 +9,7 @@ class subject extends Model
 {
     use HasFactory;
     protected $fillable=['subject_name','description','status'];
+    public function teacher(){
+        return $this->hasMany(teacher::class);
+    }
 }

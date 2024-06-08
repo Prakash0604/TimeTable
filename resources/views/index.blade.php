@@ -18,6 +18,12 @@
         />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <style>
+             .table td, .table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+        </style>
     </head>
 
     <body>
@@ -40,77 +46,30 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                     <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle active"
-                                href="#"
-                                id="dropdownId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                >Setup</a
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" aria-current="page"
+                                >Home
+                                <span class="visually-hidden">(current)</span></a
                             >
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="dropdownId"
-                            >
-                                <a class="dropdown-item" href="{{ route('grade') }}"
-                                    >Class</a
-                                >
-                                <a class="dropdown-item" href="{{ route('subject') }}"
-                                    >Subject</a
-                                > <a class="dropdown-item" href="#"
-                                    >Teacher</a
-                                > <a class="dropdown-item" href="#"
-                                    >Room</a
-                                >
-                            </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle active"
-                                href="#"
-                                id="dropdownId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                >Dropdown</a
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('grade') }}" aria-current="page"
+                                >Grade
+                                <span class="visually-hidden">(current)</span></a
                             >
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="dropdownId"
-                            >
-                                <a class="dropdown-item" href="#"
-                                    >Action 1</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Action 2</a
-                                >
-                            </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle active"
-                                href="#"
-                                id="dropdownId"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                >Dropdown</a
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('subject') }}" aria-current="page"
+                                >Subject
+                                <span class="visually-hidden">(current)</span></a
                             >
-                            <div
-                                class="dropdown-menu"
-                                aria-labelledby="dropdownId"
-                            >
-                                <a class="dropdown-item" href="#"
-                                    >Action 1</a
-                                >
-                                <a class="dropdown-item" href="#"
-                                    >Action 2</a
-                                >
-                            </div>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('teacher') }}" aria-current="page"
+                                >Teacher
+                                <span class="visually-hidden">(current)</span></a
+                            >
+                        </li>
                     </ul>
                     <a href="{{ route('logout') }}" class="btn btn-warning bg-gradient">Logout</a>
                     {{-- @else
@@ -146,3 +105,4 @@
         ></script>
     </body>
 </html>
+

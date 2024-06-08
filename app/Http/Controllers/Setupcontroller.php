@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\grade;
 use App\Models\subject;
+use App\Models\teacher;
 use Illuminate\Http\Request;
 
 class Setupcontroller extends Controller
@@ -125,4 +126,43 @@ class Setupcontroller extends Controller
     }
 
     // Subject Controller End
+
+
+
+    // Teacher Controller Start
+    public function teacher(){
+        $grades=grade::where('status',1)->get();
+        $subjects=subject::where('status',1)->get();
+        $teachers=teacher::with('subject','grade')->get();
+        return view('Content.teacher',compact('grades','subjects','teachers'));
+    }
+
+    public function storeTeacher(Request $request){
+        try{
+            $request->validate([
+                'teacher_name'=>'required|string|min:3',
+                'grade_name'=>'required',
+                'subject_name'=>'required',
+                'image'=>'mimes:jpg,png,jpeg',
+            ]);
+            $imagename=null;
+            $image=$request->file('image');
+            if($image!=null){
+                $imagename=time().'.'.$image->getClientOriginalName();
+                $image->storeAs('public/images/'.$imagename);
+            }
+            teacher::create([
+                'teacher_name'=>$request->teacher_name,
+                'grade_id'=>$request->grade_name,
+                'subject_id'=>$request->subject_name,
+                'image'=>$imagename,
+                'status'=>$request->status,
+            ]);
+            return response()->json(['success'=>true]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    // Teacher Controller End
 }

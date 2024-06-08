@@ -48,5 +48,9 @@ Route::middleware('userauth')->group(function(){
         Route::get('/subject/delete/{id}',[Setupcontroller::class,'deleteSubject']);
 
         // Subject Route End
+
+
+        Route::get('/teacher',[Setupcontroller::class,'teacher'])->name('teacher');
+        Route::post('/teacher',[Setupcontroller::class,'storeTeacher']);
     });
 });
