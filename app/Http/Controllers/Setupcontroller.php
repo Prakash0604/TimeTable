@@ -6,6 +6,7 @@ use App\Models\grade;
 use App\Models\subject;
 use App\Models\teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class Setupcontroller extends Controller
 {
@@ -162,6 +163,54 @@ class Setupcontroller extends Controller
         }catch(\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
+    }
+
+    public function editTeacher($id){
+        try{
+            $teacher=teacher::with('subject','grade')->find($id);
+            return response()->json(['success'=>true,'teacher'=>$teacher]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+    }
+
+    public function updateTeacher(Request $request){
+        try{
+            $id=$request->id;
+            $teacher=teacher::find($id);
+            $imageName=$teacher->image;
+            // if($request->file('edit_image')){
+            //     if($teacher->file_exists(public_path('storage/images/'.$teacher->image) && $teacher->image)){
+            //         unlink(public_path('storage/images/'.$teacher->image));
+            //     }
+            //     $imagename=$request->file('edit_image');
+            //     $teacherimages=time().'.'.$imagename->getClientOriginalName();
+            //     $imagename->storeAs('public/images/'.$teacherimages);
+            // }
+            if ($request->hasFile('edit_image')) {
+                // Check if the old image exists and delete it
+                if ($teacher->image && file_exists(public_path('storage/images/' . $teacher->image))) {
+                    unlink(public_path('storage/images/' . $teacher->image));
+                }
+
+                // Store the new image
+                $image = $request->file('edit_image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/images', $imageName);
+
+            }
+            $teacher->update([
+                'teacher_name'=>$request->edit_teacher_name,
+                'subject_id'=>$request->edit_subject_name,
+                'grade_id'=>$request->edit_grade_name,
+                'image'=>$imageName,
+                'status'=>$request->edit_status,
+            ]);
+            return response()->json(['success'=>true,$teacher]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+
     }
 
     // Teacher Controller End

@@ -52,5 +52,7 @@ Route::middleware('userauth')->group(function(){
 
         Route::get('/teacher',[Setupcontroller::class,'teacher'])->name('teacher');
         Route::post('/teacher',[Setupcontroller::class,'storeTeacher']);
+        Route::get('/teacher/edit/{id}',[Setupcontroller::class,'editTeacher']);
+        Route::post('/teacher/edit',[Setupcontroller::class,'updateTeacher']);
     });
 });
