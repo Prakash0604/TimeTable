@@ -71,7 +71,7 @@
                         @foreach ($grades as $grade)
                             <tr class="">
                                 <td>{{ $n }}</td>
-                                <td>{{ $grade->grade_name }}</td>
+                                <td><a href="{{ url('/setup/grade/view/'.$grade->id) }}" style="text-decoration: none">{{ $grade->grade_name }}</a></td>
                                 <td>{!! Str::limit($grade->description, 50, '....') !!}</td>
                                 <td>
                                     <span

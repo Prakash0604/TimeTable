@@ -54,5 +54,11 @@ Route::middleware('userauth')->group(function(){
         Route::post('/teacher',[Setupcontroller::class,'storeTeacher']);
         Route::get('/teacher/edit/{id}',[Setupcontroller::class,'editTeacher']);
         Route::post('/teacher/edit',[Setupcontroller::class,'updateTeacher']);
+        Route::get('/teacher/delete/{id}',[Setupcontroller::class,'deleteTeacher']);
+
+
+        // Grade Detail View Start
+        Route::get('/grade/view/{id}',[Setupcontroller::class,'viewDetail']);
+        // Grade Detail View End
     });
 });

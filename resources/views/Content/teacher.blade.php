@@ -108,7 +108,42 @@
         </div>
 
 
-        <div class="container mt-4">
+        <div class="container mt-2">
+            <form action="" method="GET" class="d-flex">
+                <div class="col-3 p-2">
+                    <label for="" class="form-label">Grade</label>
+                    <select
+                        class="form-select form-select-lg"
+                        name="grade_select"
+                        id=""
+                    >
+                    <option value="">Select one</option>
+                    @forelse ($grades as $grade)
+                    <option value="{{ $grade->id }}">{{ $grade->grade_name }}</option>
+                    @empty
+                    No data found
+                    @endforelse
+                    </select>
+                </div>
+                <div class="col-3 p-2">
+                    <label for="" class="form-label">Subject</label>
+                    <select
+                        class="form-select form-select-lg"
+                        name="subject_select"
+                        id=""
+                    >
+                        <option value="">Select one</option>
+                        @forelse ($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->subject_name }}</option>
+                        @empty
+                            No data found
+                        @endforelse
+                    </select>
+                </div>
+                <div class="col-3 mt-4 d-flex p-3" >
+                    <button type="submit" class="btn btn-primary btn-lg">Filter</button>
+                </div>
+            </form>
             <div
                 class="table-responsive"
             >
@@ -130,7 +165,7 @@
                         @php
                             $n=1;
                         @endphp
-                        @foreach ($teachers as $teacher)
+                        @forelse ($teachers as $teacher)
                         <tr class="">
                             <td>{{ $n }}</td>
                             <td>
@@ -147,13 +182,17 @@
                             <td><span class="badge badge-pill bg-{{ $teacher->status ? "success":"danger" }} rounded-pill">{{ $teacher->status ?"Active":"Inactive" }}</span></td>
                             <td>
                                 <a href="" class="btn btn-primary editteacher" data-id="{{ $teacher->id }}" data-bs-toggle="modal" data-bs-target="#editModal">Edit</a>
-                                <a href="" class="btn btn-danger deleteteacher">Delete</a>
+                                <a href="" class="btn btn-danger deleteteacher" data-id="{{ $teacher->id }}"  data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</a>
                             </td>
                         </tr>
                         @php
                             $n=$n+1;
                         @endphp
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center">No data found</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -262,6 +301,51 @@
             </div>
         </div>
         {{-- Edit Modal End --}}
+
+        {{-- Delete Modal Start  --}}
+        <div
+    class="modal fade"
+    id="deleteModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="modalTitleId"
+    aria-hidden="true"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="deleteTeacher">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title" id="modalTitleId">
+                    Delete Teacher
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <h4>Are you sure you want to delete ?</h4>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="submit" id="btndelete" class="btn btn-danger">Confirm Delete</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+        {{-- Delete Modal End --}}
         <script>
             $(document).ready(function(){
                 $("#addTeacher").submit(function(event){
@@ -361,8 +445,54 @@
                     });
                 });
                 // Update Teacher End
+
+                // Delete Teacher Start
+                $(document).on("click",".deleteteacher",function(){
+                    let id=$(this).attr("data-id");
+                    console.log(id);
+                    $("#deleteTeacher").submit(function(event){
+                        event.preventDefault();
+                        $("#btndelete").text("Deleting...");
+                        $("#btndelete").prop("disabled",true);
+                        $.ajax({
+                            method:"get",
+                            url:"{{ url('/setup/teacher/delete/') }}/"+id,
+                            success:function(data){
+                                console.log(data);
+                                if(data.success==true){
+                                    Swal.fire({
+                                        icon:"success",
+                                        title:"Teacher delete successfully",
+                                        showConfirmButton:false,
+                                        timer:1500,
+                                    });
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 1500);
+                                }
+
+                                if(data.success==false){
+                                    Swal.fire({
+                                        icon:"error",
+                                        title:data.message,
+                                        showConfirmButton:false,
+                                        timer:1500,
+                                    });
+                                    $("#btndelete").text("Confirm Delete");
+                                    $("#btndelete").prop("disabled",false);
+                                }
+                            }
+                        });
+                    });
+                });
+                // Delete Teacher End
             });
         </script>
         {{-- Add Teacher Modal End --}}
     </div>
 @endsection
+
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+

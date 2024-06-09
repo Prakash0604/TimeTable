@@ -131,10 +131,24 @@ class Setupcontroller extends Controller
 
 
     // Teacher Controller Start
-    public function teacher(){
+    public function teacher(Request $request){
+        // $data=$request->only('select_grade','select_subject');
+        $grade=$request->input('grade_select');
+        $subject=$request->input('subject_select');
+
+        // Fetch Active List Only
         $grades=grade::where('status',1)->get();
         $subjects=subject::where('status',1)->get();
-        $teachers=teacher::with('subject','grade')->get();
+        $query=teacher::with('subject','grade');
+        if(!empty($grade)){
+            $query->where("grade_id","like", "%" .$grade."%");
+        }
+        if(!empty($subject)){
+            $query->where('subject_id','like','%'.$subject.'%');
+        }
+
+       $teachers=$query->get();
+
         return view('Content.teacher',compact('grades','subjects','teachers'));
     }
 
@@ -213,5 +227,24 @@ class Setupcontroller extends Controller
 
     }
 
+    public  function deleteTeacher($id){
+        try{
+            $teacher=teacher::find($id);
+            $teacher->delete();
+            return response()->json(['success'=>true,$teacher]);
+
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()]);
+        }
+
+
+    }
     // Teacher Controller End
+
+    public function viewDetail($id){
+        $teachers=grade::with('teacher')->where('id',$id)->get();
+        return response()->json(['success'=>true,$teachers]);
+    }
+
+
 }
