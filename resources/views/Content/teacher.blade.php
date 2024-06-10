@@ -199,6 +199,9 @@
 
         </div>
 
+        <div>
+            {{ $teachers->links('pagination::bootstrap-5'); }}
+        </div>
         {{-- Edit Modal Start --}}
 
         <!-- Modal -->
@@ -344,6 +347,7 @@
         </div>
     </div>
 </div>
+
 
         {{-- Delete Modal End --}}
         <script>

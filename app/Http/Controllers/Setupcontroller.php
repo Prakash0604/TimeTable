@@ -147,7 +147,7 @@ class Setupcontroller extends Controller
             $query->where('subject_id','like','%'.$subject.'%');
         }
 
-       $teachers=$query->get();
+       $teachers=$query->paginate(3);
 
         return view('Content.teacher',compact('grades','subjects','teachers'));
     }
@@ -239,12 +239,16 @@ class Setupcontroller extends Controller
 
 
     }
-    // Teacher Controller End
+    // Teacher Controller Ending
 
     public function viewDetail($id){
-        $teachers=grade::with('teacher')->where('id',$id)->get();
-        return response()->json(['success'=>true,$teachers]);
+        $gradesteacher=grade::with(['teacher.subject'])->where('id',$id)->first();
+        // return response()->json(['success'=>true,'gradesteacher'=>$gradesteacher]);
+        return view('Content.gradeteacherlist',compact('gradesteacher'));
     }
 
+    public function generateTimetable(){
+        return view('Content.TimetableIndex');
+    }
 
 }

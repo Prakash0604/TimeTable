@@ -10,6 +10,9 @@ class grade extends Model
     use HasFactory;
     protected $fillable=['grade_name','description','status'];
     public function teacher(){
-        return $this->hasMany(teacher::class,'id','id');
+        return $this->hasMany(teacher::class,'grade_id','id');
+    }
+    public function subject(){
+        return $this->belongsTo(subject::class);
     }
 }

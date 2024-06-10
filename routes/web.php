@@ -26,7 +26,7 @@ Route::get('/login',[AuthController::class,'login']);
 Route::post('/login',[AuthController::class,'storeLogin']);
 Route::get('/email/token/{token}',[AuthController::class,'verify']);
 Route::get('test', function () {
-    return view('Mail.template');
+    return view('Content.TimetableIndex');
 });
 Route::middleware('userauth')->group(function(){
     Route::get('/dashboard',[AuthController::class,'dashboard']);
@@ -60,5 +60,9 @@ Route::middleware('userauth')->group(function(){
         // Grade Detail View Start
         Route::get('/grade/view/{id}',[Setupcontroller::class,'viewDetail']);
         // Grade Detail View End
+
+        // Time table generating table start
+        Route::get('/timetable/generate',[Setupcontroller::class,'generateTimetable']);
+        // Time table generating table End
     });
 });
