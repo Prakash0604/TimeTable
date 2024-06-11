@@ -62,7 +62,8 @@ Route::middleware('userauth')->group(function(){
         // Grade Detail View End
 
         // Time table generating table start
-        Route::get('/timetable/generate',[Setupcontroller::class,'generateTimetable']);
+        Route::get('/timetable/generate',[Setupcontroller::class,'generateTimetable'])->name('timetable');
+        Route::post('/timetable/create',[Setupcontroller::class,'createTimetable']);
         // Time table generating table End
     });
 });
