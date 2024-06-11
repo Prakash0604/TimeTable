@@ -13,10 +13,6 @@ return new class extends Migration
     {
         Schema::create('timetables', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('grade_id');
-            $table->foreign('grade_id')->references('id')->on('grades');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('subject_id')->references('id')->on('subjects');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
             $table->enum('day_of_week',['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Staurday']);
@@ -24,6 +20,7 @@ return new class extends Migration
             $table->date('ending_date');
             $table->time('starting_time');
             $table->time('ending_time');
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

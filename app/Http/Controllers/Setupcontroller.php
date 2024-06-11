@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\grade;
 use App\Models\subject;
 use App\Models\teacher;
+use App\Models\timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -248,7 +249,47 @@ class Setupcontroller extends Controller
     }
 
     public function generateTimetable(){
-        return view('Content.TimetableIndex');
+        // For all teachers list in form
+        $teachers=teacher::all();
+
+        // For table data
+        $sunday=timetable::with(['teacher.subject'])->where('day_of_week','Sunday')->get();
+        $Monday=timetable::with('teacher.subject')->where('day_of_week','Monday')->get();
+        $Tuesday=timetable::with('teacher.subject')->where('day_of_week','Tuesday')->get();
+        $Wednesday=timetable::with('teacher.subject')->where('day_of_week','Wednesday')->get();
+        $Thursday=timetable::with('teacher.subject')->where('day_of_week','Thursday')->get();
+        $Friday=timetable::with('teacher.subject')->where('day_of_week','Friday')->get();
+        $Saturday=timetable::with('teacher.subject')->where('day_of_week','Saturday')->get();
+        $timetables=timetable::all();
+        $data=compact('sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','teachers','timetables');
+        return view('Content.TimetableIndex',$data);
+        // return view('Content.TimetableIndex',compact('teachers','timetables'));
+    }
+
+    public function createTimetable(Request $request){
+        try{
+
+          $formdata=  $request->validate([
+                'teacher_name'=>'required',
+                'starting_date'=>'required|date',
+                'ending_date'=>'required|date',
+                'starting_time'=>'required',
+                'ending_time'=>'required',
+                'day_of_week'=>'required',
+            ]);
+            timetable::create([
+                'teacher_id'=>$request->teacher_name,
+                'starting_date'=>$request->starting_date,
+                'ending_date'=>$request->ending_date,
+                'starting_time'=>$request->starting_time,
+                'ending_time'=>$request->ending_time,
+                'day_of_week'=>$request->day_of_week,
+            ]);
+            return response()->json(['success'=>true,'message'=>'Data saved',$formdata,200]);
+        }
+        catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage()],500);
+        }
     }
 
 }

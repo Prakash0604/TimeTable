@@ -12,4 +12,8 @@ class subject extends Model
     public function teacher(){
         return $this->hasMany(teacher::class);
     }
+
+    public function timetable(){
+        return $this->hasMany(timetable::class);
+    }
 }

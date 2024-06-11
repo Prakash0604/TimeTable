@@ -19,6 +19,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="stylesheet" href="{{ asset('style/style.css') }}">
+        {{-- <script src="{{ asset('js/multiselect.js') }}"></script> --}}
         <style>
              .table td, .table th {
             text-align: center;
@@ -68,6 +69,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ route('teacher') }}" aria-current="page"
                                 >Teacher
+                                <span class="visually-hidden">(current)</span></a
+                            >
+                        </li><li class="nav-item">
+                            <a class="nav-link active" href="{{ route('timetable') }}" aria-current="page"
+                                >Create TimeTable
                                 <span class="visually-hidden">(current)</span></a
                             >
                         </li>

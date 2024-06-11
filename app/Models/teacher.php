@@ -14,4 +14,8 @@ class teacher extends Model
     } public function grade(){
         return $this->belongsTo(grade::class,'grade_id','id');
     }
+
+    public function timetable(){
+        return $this->hasMany(timetable::class,'teacher_id','id');
+    }
 }
