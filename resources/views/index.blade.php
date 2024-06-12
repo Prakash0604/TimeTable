@@ -17,6 +17,7 @@
             crossorigin="anonymous"
         />
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <link rel="stylesheet" href="{{ asset('style/style.css') }}">
         {{-- <script src="{{ asset('js/multiselect.js') }}"></script> --}}
@@ -24,6 +25,31 @@
              .table td, .table th {
             text-align: center;
             vertical-align: middle;
+        }
+
+        @media print {
+            @page {
+                size: A3 landscape; /* Set page size to A4 and orientation to landscape */
+                margin: 1cm; /* Adjust margins as needed */
+            }
+            body * {
+                visibility: hidden;
+            }
+            #printableArea, #printableArea * {
+                visibility: visible;
+            }
+            #printableArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-break {
+                page-break-before: always; /* Force page break before this element */
+            }
         }
         </style>
     </head>
