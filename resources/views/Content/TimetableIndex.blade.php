@@ -1,6 +1,6 @@
 @extends('index')
 @section('content')
-    <div class="container">
+    <div class="container no-print">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#modalId">
             Add Timetable
@@ -8,6 +8,7 @@
 
         <a id="viewlog" class="btn btn-warning btn-lg mt-4">View Log</a>
         <button class="btn btn-secondary btn-lg mt-4" id="slide">View Timetable</button>
+        <button onclick="printDiv('printableArea')" class="btn btn-primary no-print btn-lg mt-4"><i class="bi bi-printer-fill"></i>Print</button>
 
         <!-- Modal -->
         <div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
@@ -149,11 +150,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="container">
+            {{ $timetables->links("pagination::bootstrap-5") }}
+        </div>
 
     </div>
 
     {{-- Time table Graph --}}
-    <div class="container slideuptoggle">
+    <div class="container slideuptoggle" id="printableArea">
         <div class="w-95 w-md-75 w-lg-60 w-xl-55 mx-auto mb-6 text-center">
             <div class="subtitle alt-font"><span class="text-primary">#04</span><span class="title">Timetable</span></div>
             <h2 class="display-18 display-md-16 display-lg-14 mb-0">Committed to fabulous and great <span
@@ -163,7 +167,7 @@
             class="table-responsive"
         >
             <table
-                class="table table-striped table-hover table-borderless table-primary align-middle"
+                class="table table-striped table-hover table-borderless table-primary align-middle table-bordered"
             >
                 <thead class="table-light">
                     <tr>
@@ -283,7 +287,12 @@
 
     </div>
 
+
     <script>
+        // Prinr option
+        function printDiv(divId) {
+    window.print();
+}
         $(document).ready(function() {
             $(".timetablecontent").hide();
 

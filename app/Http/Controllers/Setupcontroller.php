@@ -260,7 +260,7 @@ class Setupcontroller extends Controller
         $Thursday=timetable::with('teacher.subject')->where('day_of_week','Thursday')->get();
         $Friday=timetable::with('teacher.subject')->where('day_of_week','Friday')->get();
         $Saturday=timetable::with('teacher.subject')->where('day_of_week','Saturday')->get();
-        $timetables=timetable::all();
+        $timetables=timetable::paginate(5);
         $data=compact('sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','teachers','timetables');
         return view('Content.TimetableIndex',$data);
         // return view('Content.TimetableIndex',compact('teachers','timetables'));
