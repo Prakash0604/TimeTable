@@ -196,8 +196,8 @@
                         <td scope="row">Monday</td>
                         @foreach ($Monday as $mon)
                         <td>
-                            <div class="card text-start text-center">
-                                <div class="card-body">
+                            <div class="card text-start text-center" style="background-image: url('asset('default.jpg')'); background-size: cover; background-position: center;">
+                                <div class="card-body ">
                                     <h6 class="card-title">{{ $mon->teacher->subject->subject_name}}</h6>
                                     <span class="card-text"> {{ $mon->teacher->teacher_name }}</span><br>
                                     <span class="card-text">{{ $mon->starting_date }}-{{ $mon->ending_date }}</span>

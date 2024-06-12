@@ -85,7 +85,8 @@ class Setupcontroller extends Controller
                 'description'=>$request->description,
                 'status'=>$request->status,
             ]);
-            return response()->json(['success'=>true]);
+            $response_code=200;
+            return response()->json(['success'=>true,$response_code]);
         }catch(\Exception $e){
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
