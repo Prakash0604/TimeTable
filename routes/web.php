@@ -65,5 +65,10 @@ Route::middleware('userauth')->group(function(){
         Route::get('/timetable/generate',[Setupcontroller::class,'generateTimetable'])->name('timetable');
         Route::post('/timetable/create',[Setupcontroller::class,'createTimetable']);
         // Time table generating table End
+
+
+        // Change Password start
+        Route::post('/password/change',[AuthController::class,'changePassword']);
+        // Change Password End
     });
 });

@@ -15,4 +15,8 @@ class grade extends Model
     public function subject(){
         return $this->belongsTo(subject::class);
     }
+
+    public function timetable(){
+        return $this->hasMany(timetable::class);
+    }
 }

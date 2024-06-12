@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\grade;
+use App\Models\subject;
+use App\Models\teacher;
 use Laravel\Prompts\error;
 use Illuminate\Support\Str;
 use GuzzleHttp\Promise\Each;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -102,8 +106,11 @@ class AuthController extends Controller
 
     public function dashboard(){
         if(Auth::check()){
-
-            return view('Content.dashboard');
+            $grade=grade::where('status',1)->count();
+            $subject=subject::where('status',1)->count();
+            $teacher=teacher::where('status',1)->count();
+            $data=compact('grade','subject','teacher');
+            return view('Content.dashboard',$data);
         }else{
             return redirect('/login');
         }
@@ -112,5 +119,29 @@ class AuthController extends Controller
     public function logout(){
         Auth::logout();
         return redirect('/login');
+    }
+
+    public function changePassword(Request $request){
+        try{
+            $request->validate([
+                'oldpassword'=>'required',
+                'newpassword'=>'required|string|min:6',
+                'confirmpassword'=>'required|same:newpassword',
+            ]);
+            $currentpassword=$request->oldpassword;
+            $newpassword=$request->newpassword;
+                // $users=User::where('password',$currentpassword)->get();
+                if(!Hash::check($currentpassword,Auth::user()->password)){
+                    return response()->json(['success'=>false,'message'=>'Invalid password',419]);
+                }else{
+                    $users=Auth::user();
+                    $users->password=Hash::make($newpassword);
+                    $users->save();
+                    return response()->json(['success'=>true,'message'=>$currentpassword,200]);
+               }
+            return response()->json(['success'=>true,'message'=>'success',200]);
+        }catch(\Exception $e){
+            return response()->json(['success'=>false,'message'=>$e->getMessage(),500]);
+        }
     }
 }
