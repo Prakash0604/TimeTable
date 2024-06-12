@@ -72,7 +72,7 @@ class Setupcontroller extends Controller
     // Subject Controller Start
 
     public function subject(){
-        $subjects=subject::all();
+        $subjects=subject::paginate(5);
         return view('Content.Subject',compact('subjects'));
     }
     public function storeSubject(Request $request){
@@ -252,7 +252,8 @@ class Setupcontroller extends Controller
     public function generateTimetable(){
         // For all teachers list in form
         $teachers=teacher::all();
-
+        $grades=grade::where('status',1)->get();
+        // Search option implemented End
         // For table data
         $sunday=timetable::with(['teacher.subject'])->where('day_of_week','Sunday')->get();
         $Monday=timetable::with('teacher.subject')->where('day_of_week','Monday')->get();
@@ -262,7 +263,7 @@ class Setupcontroller extends Controller
         $Friday=timetable::with('teacher.subject')->where('day_of_week','Friday')->get();
         $Saturday=timetable::with('teacher.subject')->where('day_of_week','Saturday')->get();
         $timetables=timetable::paginate(5);
-        $data=compact('sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','teachers','timetables');
+        $data=compact('sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','teachers','timetables','grades');
         return view('Content.TimetableIndex',$data);
         // return view('Content.TimetableIndex',compact('teachers','timetables'));
     }

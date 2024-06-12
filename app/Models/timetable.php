@@ -15,4 +15,7 @@ class timetable extends Model
     public function subject(){
         return $this->belongsTo(subject::class);
     }
+    public function grade(){
+        return $this->belongsTo(grade::class);
+    }
 }

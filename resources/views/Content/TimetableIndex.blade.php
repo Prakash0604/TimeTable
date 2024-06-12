@@ -100,6 +100,7 @@
         <div
             class="table-responsive"
         >
+
             <table
                 class="table table-bordered "
             >
@@ -136,7 +137,7 @@
                         </td>
                         <td>
                             <a href="" class="btn btn-primary">Edit</a>
-                            <a href="" class="btn btn-primary">Delete</a>
+                            <a href="" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     @php
@@ -294,15 +295,15 @@
     window.print();
 }
         $(document).ready(function() {
-            $(".timetablecontent").hide();
+            // $(".timetablecontent").hide();
 
-            $("#slide").on("click", function() {
-                $(".slideuptoggle").toggle(2000);
-            });
+            // $("#slide").on("click", function() {
+            //     $(".slideuptoggle").toggle(2000);
+            // });
 
-            $("#viewlog").on("click",function(){
-                $(".timetablecontent").toggle(1500);
-            })
+            // $("#viewlog").on("click",function(){
+            //     $(".timetablecontent").toggle(1500);
+            // });
 
             $("#updateTimetable").submit(function(event){
                 event.preventDefault();
